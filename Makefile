@@ -26,6 +26,7 @@ LD_FLAGS := -ldflags="-X '$(PKG)/internal/version.Version=$(VERSION)'"
 BUILD_FLAGS := $(LD_FLAGS) -v
 ARCHIVE_DIR=archive
 BUILD_DIR=build
+DIST_DIR=dist
 
 args = `arg="$(filter-out $@,$(MAKECMDGOALS))" && echo $${arg:-${1}}`
 
@@ -187,7 +188,7 @@ help: .do-help ; @ ## Show this help (Run make <target> V=1 to enable verbose)
 
 .do-clean:
 	go clean
-	rm -rf $(BUILD_DIR)/ $(ARCHIVE_DIR)
+	rm -rf $(BUILD_DIR)/ $(ARCHIVE_DIR) $(DIST_DIR)
 
 # ===> Get current version
 .do-version: ; $(info $(M) current version)

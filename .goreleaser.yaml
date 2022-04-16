@@ -1,0 +1,80 @@
+################################################################################
+# Before running Go Application build 
+################################################################################
+before:
+  hooks:
+    - go mod tidy
+################################################################################
+# Define Go Application build 
+################################################################################    
+builds:
+  - env:
+      - CGO_ENABLED=0
+    ldflags:
+      - -s -w -X move-files-into-date-directories/internal/version.Version={{.Version}} -X move-files-into-date-directories/internal/version.Commit={{.Commit}} -X move-files-into-date-directories/internal/version.Date={{.Date}}
+    goos:
+      - linux
+      - windows
+      - darwin
+################################################################################
+# Define releases archives 
+################################################################################
+archives:
+  - replacements:
+      darwin: Darwin
+      linux: Linux
+      windows: Windows
+      386: i386
+      amd64: x86_64
+################################################################################
+# Define chekcsum name 
+################################################################################      
+checksum:
+  name_template: 'checksums.txt'
+################################################################################
+# Snapshot name if building a snapshot version
+################################################################################
+snapshot:
+  name_template: "{{ incpatch .Version }}-next"
+################################################################################
+# Define Changelog generation file
+################################################################################
+changelog:
+  sort: asc
+  groups:
+    - title: 'Tags'
+      regexp: "^.*:bookmark:+.*$"
+      order: 1
+    - title: 'Added'
+      regexp: "^.*:sparkles:+.*$"
+      order: 1
+    - title: 'Bug Fixed'
+      regexp: "^.*:bug:+.*$"
+      order: 2
+    - title: 'Fixed'
+      regexp: "^.*:pencil2:+.*$"
+      order: 3
+    - title: Others
+      order: 999      
+  filters:
+    exclude:
+      - '^docs:'
+      - '^test:'
+################################################################################
+# Define Release Note
+################################################################################
+release:
+  # Header template for the release body.
+  header: |
+    ##  :package: -> ({{ .Date }})
+
+    Welcome to this new release!
+
+  # Footer template for the release body.
+  footer: |
+    ## Thanks!
+
+    Those were the changes on {{ .Tag }}!
+
+  # Name of the release.
+  name_template: ":tada: Version {{.Version}} of {{.ProjectName}} CLI :tada:"
