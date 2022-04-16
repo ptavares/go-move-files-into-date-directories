@@ -66,7 +66,7 @@ changelog:
 release:
   # Header template for the release body.
   header: |
-    ##  :package: -> ({{ .Date }})
+    ##  :package: {{ .Date }}
 
     Welcome to this new release!
 
@@ -77,4 +77,4 @@ release:
     Those were the changes on {{ .Tag }}!
 
   # Name of the release.
-  name_template: ":tada: Version {{.Version}} of {{.ProjectName}} CLI :tada:"
+  name_template: "🎉 {{.ProjectName}} 🏷️ {{.Version}} 🎉"
