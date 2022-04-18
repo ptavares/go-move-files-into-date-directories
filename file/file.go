@@ -30,7 +30,7 @@ func Init(currentDir, destinationDir, separator string, dateScope config.DateSco
 
 	// Test if currentDir exist
 	if _, err := os.Stat(currentDir); os.IsNotExist(err) {
-		logger.Error("%s doesn't exist")
+		logger.Errorf("%s doesn't exist", currentDir)
 		return &Client{}, exception.UnexistingDirError(currentDir, err)
 	}
 
